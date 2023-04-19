@@ -15,7 +15,7 @@ The repository is organized as follows:
 backend/: Contains the source code for the backend server, including the API endpoints for legal information retrieval, 
 user authentication, and counseling services.
 
-web/: Contains the source code for the web application, which provides the user interface for accessing legal resources
+frontend-web/: Contains the source code for the web application, which provides the user interface for accessing legal resources
 and counseling services through a web browser.
 
 mobile/: Contains the source code for the mobile application, which provides a mobile interface 
