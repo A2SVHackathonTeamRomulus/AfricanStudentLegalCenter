@@ -9,11 +9,13 @@ import { BlogController } from './blog/blog.controller';
 
 import { ContactsService } from './contacts/contacts.service';
 import { ContactsController } from './contacts/contacts.controller';
+import { VideoService } from './video/video.service';
+import { VideoController } from './video/video.controller';
 
 
 @Module({
   imports: [AuthModule, PrismaModule],
-  controllers: [AppController, BlogController,  ContactsController],
-  providers: [AppService, BlogService, ContactsService],
+  controllers: [AppController, BlogController,  ContactsController, VideoController],
+  providers: [AppService, BlogService, ContactsService, VideoService],
 })
 export class AppModule {}
