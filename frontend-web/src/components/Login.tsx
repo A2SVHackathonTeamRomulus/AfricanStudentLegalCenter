@@ -1,4 +1,5 @@
 import React, { FormEvent, useRef, useState } from "react";
+import axios from "axios";
 
 interface Props {
   onClick: () => void;
@@ -10,13 +11,35 @@ const Login = ({ onClick }: Props) => {
   const person = { email: "", password: "" };
 
   const [showPassword, setShowPassword] = useState(false);
+  const [loginError, setLoginError] = useState("");
 
-  const handleSubmit = (event: FormEvent) => {
+  const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
     if (emailRef.current !== null) person.email = emailRef.current.value;
     if (passwordRef.current !== null)
       person.password = passwordRef.current.value;
-    console.log(person);
+
+    try {
+      // Make a POST request to your backend endpoint for login
+      const response = await axios.post("<your_backend_endpoint>/login", {
+        email: person.email,
+        password: person.password,
+      });
+
+      // Handle the response from backend
+      if (response.status === 200) {
+        // Successful login
+        console.log("Login successful!");
+        // Perform any other actions after successful login
+      } else {
+        // Failed login
+        console.log("Login failed!");
+        setLoginError("Invalid email or password.");
+      }
+    } catch (error) {
+      console.error("Error during login:", error);
+      setLoginError("An error occurred during login. Please try again later.");
+    }
   };
 
   const handlePasswordVisibility = () => {
@@ -24,7 +47,12 @@ const Login = ({ onClick }: Props) => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form className="login-form" onSubmit={handleSubmit}>
+      {loginError && (
+        <div className="alert alert-danger" role="alert">
+          {loginError}
+        </div>
+      )}
       <div className="mb-3 ">
         <label htmlFor="email" className="form-label">
           Email address
@@ -63,7 +91,7 @@ const Login = ({ onClick }: Props) => {
         Login
       </button>
       <p>
-        Don't have account?
+        Don't have an account?
         <button className="btn btn-primary" onClick={onClick}>
           Signup
         </button>{" "}

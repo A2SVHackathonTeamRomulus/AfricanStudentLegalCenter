@@ -1,12 +1,22 @@
+import React, { useState, useEffect } from "react";
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { AiOutlineMail } from "react-icons/ai";
 import { BiEdit } from "react-icons/bi";
+import axios from "axios";
+
 interface Props {
   countryName: string;
   sectorName: string;
   phoneNumber: number;
   email: string;
   onRemove?: () => void;
+}
+
+interface AuthorityContactData {
+  countryName: string;
+  sectorName: string;
+  phoneNumber: number;
+  email: string;
 }
 
 const AuthorityContacts = ({
@@ -16,29 +26,59 @@ const AuthorityContacts = ({
   email,
   onRemove,
 }: Props) => {
+  const [contactData, setContactData] = useState<AuthorityContactData | null>(
+    null
+  );
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        // Update the URL with the endpoint to fetch contact data from the API
+        const response = await axios.get(
+          "<your_api_endpoint>/authority-contacts"
+        );
+        setContactData(response.data);
+      } catch (error) {
+        console.error("Error fetching authority contact data:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
   return (
-    <div className="card" style={{ width: "30rem" }}>
+    <div className="card card-width">
       <div className="card-body row">
         <div className="col">
           <img src="123" alt="The images" />
         </div>
 
         <div className="col">
-          <h5 className="card-title">{countryName}</h5>
-          <p className="text-muted">{sectorName}</p>
-          <p className="card-text">{phoneNumber}</p>
-          <h5>
-            <AiOutlineMail />
-            {email}
-          </h5>
-          <div className="row">
-            <button className="btn btn-danger col" onClick={onRemove}>
-              <RiDeleteBin6Line />
-            </button>
-            <h5 className="col">
-              <BiEdit />
-            </h5>
-          </div>
+          {contactData ? (
+            <>
+              <h5 className="card-title">{contactData.countryName}</h5>
+              <p className="text-muted">{contactData.sectorName}</p>
+              <p className="card-text">{contactData.phoneNumber}</p>
+              <h5>
+                <AiOutlineMail />
+                {contactData.email}
+              </h5>
+              <div className="row">
+                <button
+                  title="submit"
+                  className="btn btn-danger col"
+                  onClick={onRemove}
+                >
+                  <RiDeleteBin6Line />
+                </button>
+                <h5 className="col">
+                  <BiEdit />
+                </h5>
+              </div>
+            </>
+          ) : (
+            <p>Loading authority contact data...</p>
+          )}
         </div>
       </div>
     </div>

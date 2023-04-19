@@ -1,10 +1,8 @@
-import React from "react";
-
 const NavBar = () => {
   return (
-    <nav className="navbar navbar-expand-lg bg-light" data-bs-theme="dark">
+    <nav className="navbar navbar-expand-lg bg-info" data-bs-theme="dark">
       <a className="navbar-brand" href="/">
-        My Website
+        Africa student Legal Center
       </a>
       <button
         className="navbar-toggler"
@@ -27,6 +25,16 @@ const NavBar = () => {
           <li className="nav-item">
             <a className="nav-link" href="/about">
               About
+            </a>
+          </li>
+          <li className="nav-item">
+            <a className="nav-link" href="/video">
+              Videos
+            </a>
+          </li>
+          <li className="nav-item">
+            <a className="nav-link" href="/blog">
+              Blog
             </a>
           </li>
           <li className="nav-item">

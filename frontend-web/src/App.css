@@ -1,3 +1,61 @@
-card-width {
-  width: "16rem";
+/* Default style for login form - this applies to extra small devices */
+.login-form {
+  width: 100%;
+  max-width: 24rem;
+  padding: 1rem;
+  margin: auto;
+}
+
+.card-width {
+  width: 100%;
+  max-width: 350px;
+}
+
+@media (min-width: 576px) {
+  .login-form {
+    max-width: 28rem;
+  }
+  .card-width {
+    max-width: 20rem;
+  }
+}
+
+/* Medium devices (tablets, 768px and up) */
+@media (min-width: 768px) {
+  .login-form {
+    max-width: 32rem;
+  }
+  .card-width {
+    max-width: 24rem;
+  }
+}
+
+/* Large devices (desktops, 992px and up) */
+@media (min-width: 992px) {
+  .login-form {
+    max-width: 36rem;
+  }
+  .card-width {
+    max-width: 28rem;
+  }
+}
+
+/* X-Large devices (large desktops, 1200px and up) */
+@media (min-width: 1200px) {
+  .login-form {
+    max-width: 40rem;
+  }
+  .card-width {
+    max-width: 32rem;
+  }
+}
+
+/* XX-Large devices (larger desktops, 1400px and up) */
+@media (min-width: 1400px) {
+  .login-form {
+    max-width: 44rem;
+  }
+  .card-width {
+    max-width: 36rem;
+  }
 }
