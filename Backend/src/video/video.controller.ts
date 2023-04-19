@@ -1,15 +1,23 @@
-import { Controller,  UseInterceptors, BadRequestException, UploadedFile, Get, Post, Body, Patch, Param, Delete, Res } from '@nestjs/common';
+import { Controller,  UseInterceptors, BadRequestException, UploadedFile, Get, Post, Body, Patch, Param, Delete, Res, UseGuards } from '@nestjs/common';
 import { VideoService } from './video.service';
 import { CreateVideoDto } from './dto/create-video.dto';
 import { UpdateVideoDto } from './dto/update-video.dto';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { Response } from 'express';
+import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
+import { RolesGuard } from 'src/auth/guards/roles.guard';
+import { Role } from 'src/users/enums/role.enum';
+import { Roles } from 'src/users/roles.decorators';
 
 @Controller('video')
 export class VideoController {
   constructor(private readonly videoService: VideoService) {}
 
+
+
+  @UseGuards(JwtAuthGuard,RolesGuard)
+  @Roles(Role.Admin)
   @Post()
   @UseInterceptors(FileInterceptor('file', {
         storage: diskStorage({
@@ -59,6 +67,8 @@ export class VideoController {
     return this.videoService.findOne(id);
   }
 
+  @UseGuards(JwtAuthGuard,RolesGuard)
+  @Roles(Role.Admin)
   @Patch(':id')
   update(@Param('id') id, @Body() updateVideoDto: UpdateVideoDto) {
     return this.videoService.update(id, updateVideoDto)
@@ -66,6 +76,8 @@ export class VideoController {
 
 
 
+  @UseGuards(JwtAuthGuard,RolesGuard)
+  @Roles(Role.Admin)
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.videoService.remove(id);

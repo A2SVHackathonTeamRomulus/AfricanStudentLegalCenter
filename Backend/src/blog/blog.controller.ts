@@ -1,12 +1,19 @@
-import { Controller, Get, Post, Put, Delete, Param, Body } from '@nestjs/common';
+import { Controller, Get, Post, Put, Delete, Param, Body, UseGuards } from '@nestjs/common';
 import { BlogService } from './blog.service';
 import {blog } from './blogSchema/blog.schema';
 import { CreateBlogDto } from './dto/create-blog.dto';
+import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
+import { RolesGuard } from 'src/auth/guards/roles.guard';
+import { Role } from 'src/users/enums/role.enum';
+import { Roles } from 'src/users/roles.decorators';
+
 
 @Controller('blog')
 export class BlogController {
   constructor(private readonly blogService: BlogService) {}
 
+  @UseGuards(JwtAuthGuard,RolesGuard)
+  @Roles(Role.Admin)
   @Post()
   async create(@Body() blogs: CreateBlogDto) {
     
@@ -17,26 +24,24 @@ export class BlogController {
   async findAll(): Promise<blog[]> {
     return this.blogService.findAll();
   }
-
+  
   @Get(':id')
   async findOne(@Param('id') id: number): Promise<blog> {
     return this.blogService.findOne(id);
   }
-
+  
+  @UseGuards(JwtAuthGuard,RolesGuard)
+  @Roles(Role.Admin)
   @Put(':id')
   async updateOne(@Param('id') id: number, @Body() blog: blog): Promise<blog> {
     return this.blogService.updateOne(id, blog);
   }
 
+  @UseGuards(JwtAuthGuard,RolesGuard)
+  @Roles(Role.Admin)
   @Delete(':id')
   async deleteOne(@Param('id') id: number): Promise<blog> {
     return this.blogService.deleteOne(id);
   }
 }
 
-
-//write a resource called eder with controller, service, schema for mongo, and module in nest 
-
-// write a user authentication and authorization using roles and jwt authentication  in nest js and mongo
-
-//write me a nestjs mongo db chat app using socket io
