@@ -8,8 +8,8 @@ export class ContactsController {
   constructor(private readonly contactsService: ContactsService) {}
 
   @Post()
-  async create(@Body() createContactDto: ContactsDto): Promise<ContactsDto> {
-    return this.contactsService.create(createContactDto);
+  async create(@Body()  dto: any): Promise<ContactsDto|any> {
+    return this.contactsService.create(dto);
   }
 
   @Get()

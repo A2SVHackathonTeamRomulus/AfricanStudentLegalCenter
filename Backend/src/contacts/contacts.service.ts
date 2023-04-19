@@ -8,19 +8,16 @@ import { ContactsDto } from './dto';
 export class ContactsService {
   constructor(private  prisma: PrismaService) {}
 
-  async create(authorityContactData: {
-    country: string;
-    sector: string;
-    phone: string;
-  }): Promise<Contacts> {
+  async create(authorityContactData:ContactsDto): Promise<Contacts|any> {
     const { country, sector, phone} = authorityContactData;
-    return this.prisma.contacts.create({
+    const contact = await this.prisma.contacts.create({
       data: {
         country,
         sector,
         phone,
       },
     });
+    return contact;
   }
 
   async findAll(): Promise<ContactsDto|any> {
