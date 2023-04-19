@@ -51,7 +51,6 @@ export class ContactsService {
       },
     });
     return updatedcontact;
-    
   }
 
   async remove(id: number): Promise<ContactsDto> {
