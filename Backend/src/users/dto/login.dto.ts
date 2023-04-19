@@ -10,7 +10,6 @@ export class LoginDto{
       @IsNotEmpty()
       public password: string;
 
-      @IsString()
-      public newPassword: string;
+      
       
 }
