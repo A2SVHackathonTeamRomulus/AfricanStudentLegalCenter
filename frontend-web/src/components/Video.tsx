@@ -1,4 +1,5 @@
-import React from "react";
+import { RiDeleteBin6Line } from "react-icons/ri";
+
 interface Props {
   title: string;
   url: string;
@@ -14,8 +15,8 @@ const Video = ({ title, url, onRemove }: Props) => {
         <a href="#" className="btn btn-primary">
           View Details
         </a>
-        <button className="btn btn-danger" onClick={onRemove}>
-          Remove
+        <button className="btn btn-danger m-3" onClick={onRemove}>
+          <RiDeleteBin6Line />
         </button>
       </div>
     </div>

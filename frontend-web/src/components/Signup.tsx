@@ -1,14 +1,20 @@
 import React, { FormEvent, useRef, useState } from "react";
 
-const Login = () => {
+interface Props {
+  onClick: () => void;
+}
+
+const Signup = ({ onClick }: Props) => {
+  const nameRef = useRef<HTMLInputElement>(null);
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
-  const person = { email: "", password: "" };
+  const person = { name: "", email: "", password: "" };
 
   const [showPassword, setShowPassword] = useState(false);
 
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
+    if (nameRef.current !== null) person.name = nameRef.current.value;
     if (emailRef.current !== null) person.email = emailRef.current.value;
     if (passwordRef.current !== null)
       person.password = passwordRef.current.value;
@@ -21,7 +27,14 @@ const Login = () => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <div className="mb-3 ">
+      <div className="mb-3">
+        <label htmlFor="name" className="form-label">
+          Student Name
+        </label>
+        <input ref={nameRef} id="name" type="text" className="form-control" />
+      </div>
+
+      <div className="mb-3">
         <label htmlFor="email" className="form-label">
           Email address
         </label>
@@ -56,10 +69,16 @@ const Login = () => {
         </label>
       </div>
       <button type="submit" className="btn btn-primary">
-        Login
+        Signup
       </button>
+      <p>
+        Already have account?
+        <button className="btn btn-primary" onClick={onClick}>
+          Login
+        </button>{" "}
+      </p>
     </form>
   );
 };
 
-export default Login;
+export default Signup;
