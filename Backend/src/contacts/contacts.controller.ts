@@ -18,18 +18,18 @@ export class ContactsController {
   }
 
   @Get(':id')
-  async findOne(@Param('id') id: number): Promise<ContactsDto> {
-    return this.contactsService.findOne(id);
+  async findOne(@Param('id') id: string): Promise<ContactsDto> {
+    return this.contactsService.findOne(Number(id));
   }
 
   @Put(':id')
-  async update(@Param('id') id: number, @Body() updateContactDto: ContactsDto): Promise<ContactsDto> {
-    return this.contactsService.update(id, updateContactDto);
+  async update(@Param('id') id: string, @Body() updateContactDto: ContactsDto): Promise<ContactsDto> {
+    return this.contactsService.update(Number(id), updateContactDto);
   }
 
   @Delete(':id')
-  async remove(@Param('id') id: number): Promise<ContactsDto> {
-    return this.contactsService.remove(id);
+  async remove(@Param('id') id:string): Promise<ContactsDto> {
+    return this.contactsService.remove(Number(id));
   }
 }
 

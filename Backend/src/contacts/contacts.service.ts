@@ -25,8 +25,8 @@ export class ContactsService {
     return contacts;
   }
 
-  async findOne(id: number): Promise<ContactsDto|any> {
-    const contact = await this.prisma.contacts.findUnique({
+  async findOne(id: number): Promise<ContactsDto|any> { 
+    const contact = await this.prisma.contacts.findFirst({
       where: {
         id,
       },
