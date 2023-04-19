@@ -3,9 +3,6 @@ import { RiDeleteBin6Line } from "react-icons/ri";
 import axios from "axios"; // Import axios for making HTTP requests
 
 interface Props {
-  title: string;
-  content: ReactNode;
-  publisher: string;
   onRemove?: () => void;
 }
 
@@ -15,7 +12,7 @@ interface BlogData {
   publisher: string;
 }
 
-const Blog = ({ title, content, publisher, onRemove }: Props) => {
+const Blog = ({ onRemove }: Props) => {
   const [blogData, setBlogData] = useState<BlogData | null>(null);
 
   useEffect(() => {

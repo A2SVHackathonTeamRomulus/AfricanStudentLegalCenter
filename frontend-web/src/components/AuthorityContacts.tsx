@@ -5,10 +5,6 @@ import { BiEdit } from "react-icons/bi";
 import axios from "axios";
 
 interface Props {
-  countryName: string;
-  sectorName: string;
-  phoneNumber: number;
-  email: string;
   onRemove?: () => void;
 }
 
@@ -19,13 +15,7 @@ interface AuthorityContactData {
   email: string;
 }
 
-const AuthorityContacts = ({
-  countryName,
-  sectorName,
-  phoneNumber,
-  email,
-  onRemove,
-}: Props) => {
+const AuthorityContacts = ({ onRemove }: Props) => {
   const [contactData, setContactData] = useState<AuthorityContactData | null>(
     null
   );

@@ -3,8 +3,6 @@ import { RiDeleteBin6Line } from "react-icons/ri";
 import axios from "axios";
 
 interface Props {
-  title: string;
-  url: string;
   onRemove?: () => void;
 }
 
@@ -13,7 +11,7 @@ interface VideoData {
   url: string;
 }
 
-const Video = ({ title, url, onRemove }: Props) => {
+const Video = ({ onRemove }: Props) => {
   const [videoData, setVideoData] = useState<VideoData | null>(null);
 
   useEffect(() => {
