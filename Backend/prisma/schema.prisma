@@ -6,14 +6,23 @@ generator client {
 }
 
 datasource db {
-  provider = "mongodb"
-  url      = env("DATABASE_URL")
+  provider = "sqlite"
+  url      = "file:../databases/dev.db"
 }
 
 model User {
-  id    String  @id @default(auto()) @map("_id") @db.ObjectId
+  id              Int    @id @default(autoincrement())
   email String  @unique
   name  String?
+  password String?
 }
+
+model Blog{
+  id              Int    @id @default(autoincrement())
+  title           String
+  content         String
+  publisher       String
+}
+
 
 
