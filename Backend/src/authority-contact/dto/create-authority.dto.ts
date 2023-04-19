@@ -8,6 +8,7 @@ export class CreateAuthorityDto{
       readonly sector: string; 
       readonly phone: string;
       readonly email: string;
+      readonly id; number;
       
 
 }

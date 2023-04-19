@@ -6,6 +6,8 @@ export type blogDocument = HydratedDocument<blog>;
 
 @Schema()
 export class blog {
+  
+
   @Prop({ required: true })
   title : string;
 
@@ -14,10 +16,20 @@ export class blog {
 
   @Prop({ required: true })
   publisher : string;
+  
+  @Prop({unique: true , index: true, type: String})
+
+  id : string;
+ 
 
   @Prop([String])
   tags : string[];
 
 }
 
+
+
 export const blogSchema = SchemaFactory.createForClass(blog);
+
+
+

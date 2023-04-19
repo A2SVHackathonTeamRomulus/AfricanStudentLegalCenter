@@ -15,8 +15,12 @@ export class authority {
   @Prop({ required: true })
   phone : string;
 
-  @Prop()
+  @Prop({ required: true })
   email : string;
+
+  @Prop({  unique: true })
+  id  : string;
+ 
 
 }
 

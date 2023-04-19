@@ -19,17 +19,17 @@ export class AuthorityController {
   }
 
   @Get(':id')
-  async findOne(@Param('id') id: number): Promise<authority> {
+  async findOne(@Param('id') id: string): Promise<authority> {
     return this.authorityService.findOne(id);
   }
 
   @Put(':id')
-  async updateOne(@Param('id') id: number, @Body() authority: authority): Promise<authority> {
+  async updateOne(@Param('id') id: string, @Body() authority: authority): Promise<authority> {
     return this.authorityService.updateOne(id, authority);
   }
 
   @Delete(':id')
-  async deleteOne(@Param('id') id: number): Promise<authority> {
+  async deleteOne(@Param('id') id: string): Promise<authority> {
     return this.authorityService.deleteOne(id);
   }
 }

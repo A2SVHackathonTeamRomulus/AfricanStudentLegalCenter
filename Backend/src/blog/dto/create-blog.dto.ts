@@ -7,6 +7,7 @@ export class CreateBlogDto{
       readonly content: string; 
       readonly publisher: string;
       readonly tags: string[];
+      readonly id: string;
       
 
 }
