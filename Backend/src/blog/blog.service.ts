@@ -23,6 +23,7 @@ export class BlogService {
   }
 
   async update(id: number, data: Prisma.BlogUpdateInput): Promise<{success:true,data:Blog} | { success: false, message: string }>{
+    try {
     const existingblog = await this.prisma.blog.findFirst({ where: { id } });
     if (!existingblog) {
       return { success: false, message: 'blog not found' };
@@ -31,11 +32,15 @@ export class BlogService {
       where: { id },
       data,
     });
-
     return {success:true,data:blog}
+    } catch (error) {
+      return {success:false,message:error}
+    }
+    
   }
 
   async delete(id: number): Promise<{success:true,data:Blog} | { success: false, message: string }> {
+    try {
     const existingContact = await this.prisma.blog.findFirst({ where: { id } });
     if (!existingContact) {
       return { success: false, message: 'blog not found' };
@@ -44,7 +49,12 @@ export class BlogService {
       where: { id },
     });
 
-    return {success:true,data:blog};
+    return {success:true,data:blog}; 
+    } catch (error) {
+      return {success:false,message:error}
+      
+    }
+    
   }
 }
 
