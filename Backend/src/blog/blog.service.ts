@@ -22,17 +22,29 @@ export class BlogService {
     });
   }
 
-  async update(id: number, data: Prisma.BlogUpdateInput): Promise<Blog> {
-    return this.prisma.blog.update({
+  async update(id: number, data: Prisma.BlogUpdateInput): Promise<{success:true,data:Blog} | { success: false, message: string }>{
+    const existingblog = await this.prisma.video.findFirst({ where: { id } });
+    if (!existingblog) {
+      return { success: false, message: 'blog not found' };
+    }
+    const blog = await this.prisma.blog.update({
       where: { id },
       data,
     });
+
+    return {success:true,data:blog}
   }
 
-  async delete(id: number): Promise<Blog> {
-    return this.prisma.blog.delete({
+  async delete(id: number): Promise<{success:true,data:Blog} | { success: false, message: string }> {
+    const existingContact = await this.prisma.video.findFirst({ where: { id } });
+    if (!existingContact) {
+      return { success: false, message: 'blog not found' };
+    }
+    const blog = await this.prisma.blog.delete({
       where: { id },
     });
+
+    return {success:true,data:blog};
   }
 }
 

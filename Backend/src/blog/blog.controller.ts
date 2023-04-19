@@ -22,12 +22,12 @@ export class BlogController {
   }
 
   @Put(':id')
-  async update(@Param('id') id: string, @Body() data: Prisma.BlogUpdateInput): Promise<Blog> {
+  async update(@Param('id') id: string, @Body() data: Prisma.BlogUpdateInput):  Promise<{success:true,data:Blog} | { success: false, message: string }> {
     return this.blogService.update(Number(id), data);
   }
 
   @Delete(':id')
-  async delete(@Param('id') id: string): Promise<Blog> {
+  async delete(@Param('id') id: string): Promise<{success:true,data:Blog} | { success: false, message: string }>{
     return this.blogService.delete(Number(id));
   }
 }

@@ -33,6 +33,7 @@ model Contacts {
 
 model Video{
   id        Int     @id @default(autoincrement())
+  title     String @default("African Students Legal Center")
   url       String
 }
 

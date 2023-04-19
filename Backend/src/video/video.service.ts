@@ -22,17 +22,28 @@ export class VideoService {
     });
   }
 
-  async update(id: number, data: VideoDto): Promise<Video> {
-    return this.prisma.video.update({
+  async update(id: number, data: VideoDto):  Promise<{success:true,data:Video}|{success:false,message:string}>{
+    const existingContact = await this.prisma.video.findFirst({ where: { id } });
+    if (!existingContact) {
+      return { success: false, message: 'video not found' };
+    }
+    const video = await this.prisma.video.update({
       where: { id },
       data,
     });
+    return {success:true,data:video}
   }
 
-  async remove(id: number): Promise<Video> {
-    return this.prisma.video.delete({
+  async remove(id: number): Promise<{success:true,data:Video}|{success:false,message:string}> {
+    const existingContact = await this.prisma.video.findFirst({ where: { id } });
+    if (!existingContact) {
+      return { success: false, message: 'video not found' };
+    }
+    const video = await this.prisma.video.delete({
       where: { id },
     });
+    return {success:true,data:video}
+
   }
 }
 

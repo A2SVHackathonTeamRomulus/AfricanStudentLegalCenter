@@ -23,12 +23,12 @@ export class ContactsController {
   }
 
   @Put(':id')
-  async update(@Param('id') id: string, @Body() updateContactDto: ContactsDto): Promise<ContactsDto> {
+  async update(@Param('id') id: string, @Body() updateContactDto: ContactsDto):  Promise<{success:true,data:ContactsDto} | { success: false, message: string }>  {
     return this.contactsService.update(Number(id), updateContactDto);
   }
 
   @Delete(':id')
-  async remove(@Param('id') id:string): Promise<ContactsDto> {
+  async remove(@Param('id') id:string):  Promise<{success:true,data:ContactsDto} | { success: false, message: string }> {
     return this.contactsService.remove(Number(id));
   }
 }

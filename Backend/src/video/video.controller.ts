@@ -36,12 +36,13 @@ import {
     update(
       @Param('id') id: string,
       @Body() updateVideoDto: VideoDto,
-    ): Promise<Video> {
+    ): Promise<{success:true,data:Video}|{success:false,message:string}> {
+      
       return this.videoService.update(+id, updateVideoDto);
     }
   
     @Delete(':id')
-    remove(@Param('id') id: string): Promise<Video> {
+    remove(@Param('id') id: string): Promise<{success:true,data:Video}|{success:false,message:string}> {
       return this.videoService.remove(+id);
     }
   }

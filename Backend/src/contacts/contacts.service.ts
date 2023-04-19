@@ -35,9 +35,14 @@ export class ContactsService {
   }
   
 
-  async update(id: number, dto: ContactsDto): Promise<ContactsDto> {
-    const { country,sector, phone} = dto;
-    const updatedcontact =  await this.prisma.contacts.update({
+  async update(id: number, dto: ContactsDto):  Promise<{success:true,data:ContactsDto} | { success: false, message: string }> {
+    const existingContact = await this.prisma.contacts.findFirst({ where: { id } });
+    if (!existingContact) {
+      return { success: false, message: 'Contact not found' };
+    }
+  
+    const { country, sector, phone } = dto;
+    const updatedContact = await this.prisma.contacts.update({
       where: {
         id,
       },
@@ -47,14 +52,21 @@ export class ContactsService {
         phone,
       },
     });
-    return updatedcontact;
+    return {success:true,data: updatedContact};
   }
-
-  async remove(id: number): Promise<ContactsDto> {
-    return this.prisma.contacts.delete({
+  
+  async remove(id: number): Promise<{success:true,data:ContactsDto} | { success: false, message: string }> {
+    const existingContact = await this.prisma.contacts.findFirst({ where: { id } });
+    if (!existingContact) {
+      return { success: false, message: 'Contact not found' };
+    }
+  
+    const deletedContact = await this.prisma.contacts.delete({
       where: {
         id,
       },
     });
+    return {success:true,data:deletedContact};
   }
 }
+
