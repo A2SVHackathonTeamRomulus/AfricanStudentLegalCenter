@@ -10,5 +10,13 @@ export class AuthDto{
     @IsNotEmpty()
     @IsString()
     password:string
+}
 
+export class SigninDto{
+    @IsEmail()
+    email:string;
+    @IsNotEmpty()
+    @IsString()
+    password:string
+    
 }
