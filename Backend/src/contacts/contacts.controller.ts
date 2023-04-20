@@ -1,7 +1,8 @@
 
-import { Controller, Get, Post, Put, Delete, Body, Param } from '@nestjs/common';
+import { Controller, Get, Post, Put, Delete, Body, Param, UseGuards } from '@nestjs/common';
 import { ContactsService } from './contacts.service';
 import { ContactsDto } from './dto';
+import { AuthGuard } from '@nestjs/passport';
 
 @Controller('contacts')
 export class ContactsController {
@@ -23,10 +24,11 @@ export class ContactsController {
   }
 
   @Put(':id')
+  @UseGuards(AuthGuard('jwt'))
   async update(@Param('id') id: string, @Body() updateContactDto: ContactsDto):  Promise<{success:true,data:ContactsDto} | { success: false, message: string }>  {
     return this.contactsService.update(Number(id), updateContactDto);
   }
-
+  @UseGuards(AuthGuard('jwt'))
   @Delete(':id')
   async remove(@Param('id') id:string):  Promise<{success:true,data:ContactsDto} | { success: false, message: string }> {
     return this.contactsService.remove(Number(id));
