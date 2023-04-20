@@ -1,45 +1,20 @@
 import React, { FormEvent, useRef, useState } from "react";
-import axios from "axios";
 
-interface Props {
-  onClick: () => void;
-}
-
-const Login = ({ onClick }: Props) => {
+const Signup = () => {
+  const nameRef = useRef<HTMLInputElement>(null);
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
-  const person = { email: "", password: "" };
+  const person = { name: "", email: "", password: "" };
 
   const [showPassword, setShowPassword] = useState(false);
-  const [loginError, setLoginError] = useState("");
 
-  const handleSubmit = async (event: FormEvent) => {
+  const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
+    if (nameRef.current !== null) person.name = nameRef.current.value;
     if (emailRef.current !== null) person.email = emailRef.current.value;
     if (passwordRef.current !== null)
       person.password = passwordRef.current.value;
-
-    try {
-      // Make a POST request to your backend endpoint for login
-      const response = await axios.post("http://localhost:3000/auth/signin", {
-        email: person.email,
-        password: person.password,
-      });
-
-      // Handle the response from backend
-      if (response.status === 200) {
-        // Successful login
-        console.log("Login successful!");
-        // Perform any other actions after successful login
-      } else {
-        // Failed login
-        console.log("Login failed!");
-        setLoginError("Invalid email or password.");
-      }
-    } catch (error) {
-      console.error("Error during login:", error);
-      setLoginError("An error occurred during login. Please try again later.");
-    }
+    console.log(person);
   };
 
   const handlePasswordVisibility = () => {
@@ -47,13 +22,15 @@ const Login = ({ onClick }: Props) => {
   };
 
   return (
-    <form className="login-form" onSubmit={handleSubmit}>
-      {loginError && (
-        <div className="alert alert-danger" role="alert">
-          {loginError}
-        </div>
-      )}
-      <div className="mb-3 ">
+    <form onSubmit={handleSubmit}>
+      <div className="mb-3">
+        <label htmlFor="name" className="form-label">
+          Student Name
+        </label>
+        <input ref={nameRef} id="name" type="text" className="form-control" />
+      </div>
+
+      <div className="mb-3">
         <label htmlFor="email" className="form-label">
           Email address
         </label>
@@ -90,14 +67,8 @@ const Login = ({ onClick }: Props) => {
       <button type="submit" className="btn btn-primary">
         Login
       </button>
-      <p>
-        Don't have an account?
-        <button className="btn btn-primary" onClick={onClick}>
-          Signup
-        </button>{" "}
-      </p>
     </form>
   );
 };
 
-export default Login;
+export default Signup;

@@ -1,23 +1,24 @@
 import React, { FormEvent, useRef } from "react";
 
 const AddBlog = () => {
+  const idRef = useRef<HTMLInputElement>(null);
   const titleRef = useRef<HTMLInputElement>(null);
   const publisherRef = useRef<HTMLInputElement>(null);
-  const fileRef = useRef<HTMLInputElement>(null);
+  const contentRef = useRef<HTMLTextAreaElement>(null);
 
   const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
     const formData = new FormData();
     if (titleRef.current !== null)
       formData.append("title", titleRef.current.value);
+    if (contentRef.current !== null)
+      formData.append("content", contentRef.current.value);
     if (publisherRef.current !== null)
       formData.append("publisher", publisherRef.current.value);
-    if (fileRef.current !== null && fileRef.current.files !== null)
-      formData.append("file", fileRef.current.files[0]);
 
     try {
       // Make a POST request to the backend API endpoint for creating a new blog
-      const response = await fetch("/api/blogs", {
+      const response = await fetch("http://localhost:3000/blog", {
         method: "POST",
         body: formData,
       });
@@ -46,6 +47,12 @@ const AddBlog = () => {
         <input ref={titleRef} id="title" type="text" className="form-control" />
       </div>
       <div className="mb-2">
+        <label htmlFor="content" className="form-label">
+          Content
+        </label>
+        <textarea ref={contentRef} id="content" className="form-control" />
+      </div>
+      <div className="mb-2">
         <label htmlFor="publisher" className="form-label">
           Publisher
         </label>
@@ -55,12 +62,6 @@ const AddBlog = () => {
           type="text"
           className="form-control"
         />
-      </div>
-      <div className="mb-2">
-        <label htmlFor="file" className="form-label">
-          Input File
-        </label>
-        <input ref={fileRef} type="file" name="file" id="file" />
       </div>
       <button type="submit" className="btn btn-primary">
         Add Blog

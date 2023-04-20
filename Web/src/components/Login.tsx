@@ -1,45 +1,18 @@
 import React, { FormEvent, useRef, useState } from "react";
-import axios from "axios";
 
-interface Props {
-  onClick: () => void;
-}
-
-const Login = ({ onClick }: Props) => {
+const Login = () => {
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
   const person = { email: "", password: "" };
 
   const [showPassword, setShowPassword] = useState(false);
-  const [loginError, setLoginError] = useState("");
 
-  const handleSubmit = async (event: FormEvent) => {
+  const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
     if (emailRef.current !== null) person.email = emailRef.current.value;
     if (passwordRef.current !== null)
       person.password = passwordRef.current.value;
-
-    try {
-      // Make a POST request to your backend endpoint for login
-      const response = await axios.post("http://localhost:3000/auth/signin", {
-        email: person.email,
-        password: person.password,
-      });
-
-      // Handle the response from backend
-      if (response.status === 200) {
-        // Successful login
-        console.log("Login successful!");
-        // Perform any other actions after successful login
-      } else {
-        // Failed login
-        console.log("Login failed!");
-        setLoginError("Invalid email or password.");
-      }
-    } catch (error) {
-      console.error("Error during login:", error);
-      setLoginError("An error occurred during login. Please try again later.");
-    }
+    console.log(person);
   };
 
   const handlePasswordVisibility = () => {
@@ -47,12 +20,7 @@ const Login = ({ onClick }: Props) => {
   };
 
   return (
-    <form className="login-form" onSubmit={handleSubmit}>
-      {loginError && (
-        <div className="alert alert-danger" role="alert">
-          {loginError}
-        </div>
-      )}
+    <form onSubmit={handleSubmit}>
       <div className="mb-3 ">
         <label htmlFor="email" className="form-label">
           Email address
@@ -90,12 +58,6 @@ const Login = ({ onClick }: Props) => {
       <button type="submit" className="btn btn-primary">
         Login
       </button>
-      <p>
-        Don't have an account?
-        <button className="btn btn-primary" onClick={onClick}>
-          Signup
-        </button>{" "}
-      </p>
     </form>
   );
 };

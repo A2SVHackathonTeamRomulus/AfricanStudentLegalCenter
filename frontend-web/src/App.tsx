@@ -1,10 +1,13 @@
 import "./App.css";
 import AdminPage from "./pages/AdminPage";
+import HomePage from "./pages/HomePage";
+import LoginPage from "./pages/LoginPage";
+import UserPage from "./pages/UserPage";
 
 function App() {
   return (
     <div>
-      <AdminPage />
+      <HomePage />
     </div>
   );
 }
