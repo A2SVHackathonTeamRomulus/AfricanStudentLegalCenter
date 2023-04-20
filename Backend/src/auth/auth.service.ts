@@ -1,14 +1,15 @@
-import { Body, Injectable } from "@nestjs/common";
-import { PrismaService } from "src/prisma/prisma.service";
+import { Body, ForbiddenException, Injectable } from "@nestjs/common";
+import { PrismaService } from "../prisma/prisma.service";
 import *  as argon from "argon2";
-import { AuthDto } from "./dto";
-import { PrismaClient } from '@prisma/client'
+import { AuthDto, SigninDto } from "./dto";
+import { JwtService } from "@nestjs/jwt";
+
 
 
 
 @Injectable()
 export class AuthService {
-  constructor(private prisma: PrismaService) {}
+  constructor(private prisma: PrismaService,private jwt:JwtService) {}
 
   async findAll(): Promise<AuthDto[]> {
     return this.prisma.user.findMany();
@@ -20,19 +21,34 @@ export class AuthService {
     });
   }
 
-  async create(data: { email: string; name?: string; password?: string }): Promise<AuthDto|any> {
-    const { email, name, password } = data;
-    const existingUser = await this.prisma.user.findUnique({ where: { email } });
+  async create(data: { name?: string;email: string;  password?: string }): Promise<AuthDto|any> {
 
-    if (existingUser) {
-      return { message: 'User with this email already exists' };
+
+    try {
+      const {name,email, password } = data;
+      const existingUser = await this.prisma.user.findUnique({ where: { email } });
+  
+      if (existingUser) {
+        return { message: 'User with this email already exists' };
+      }
+  
+      const hash = await argon.hash(data.password);
+  
+      const user = await this.prisma.user.create({
+        data:{
+          name:data.name,
+          email:data.email,
+          password:hash
+        }
+      });
+  
+      delete user.password;
+  
+      return this.signToken(user.id,user.email); 
+    } catch (error) {
+      throw error;
     }
-
-    const user = await this.prisma.user.create({
-      data,
-    });
-
-    return user;
+   
   }
 
   async update(id: number, data: { email?: string; name?: string; password?: string }): Promise<AuthDto|{message:string}> {
@@ -63,8 +79,32 @@ export class AuthService {
   }
 
 
-  async signin(){
-    return "it is working";
+  async signin(dto:SigninDto){
+    const user = await this.prisma.user.findUnique({
+      where:{email:dto.email}
+    })
+    if (!user){
+      throw new ForbiddenException("Incorrect credentials");
+    }
+    const pwmatches = await argon.verify(user.password,dto.password);
+    if (!pwmatches){
+      throw new ForbiddenException("Incorrect Credentials");
+    }
+    return this.signToken(user.id,user.email);
+  }
+
+  async signToken(userId:number,email:string){
+    const payload ={
+      sub:userId,
+      email,
+    }
+    const token = await this.jwt.signAsync(payload,{
+      expiresIn:'2h',
+      secret:'Africa'
+    })
+
+    return {access_token:token}
+
   }
 }
 
